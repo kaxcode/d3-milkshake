@@ -28,5 +28,29 @@ async function drawScatter() {
   dimensions.boundedHeight = dimensions.height
     - dimensions.margin.top
     - dimensions.margin.bottom;
+
+  // Draw Canvas
+  const wrapper = d3.select("#wrapper")
+    .append("svg")
+      .attr("width", dimensions.width)
+      .attr("height", dimensions.height)
+
+  const bounds = wrapper.append("g")
+    .style("transform", `translate(${
+        dimensions.margin.left
+      }px, ${
+        dimensions.margin.top
+      }px)`)
+
+  // Create Scales
+  const xScale = d3.scaleLinear()
+    .domain(d3.extent(dataset, xAccessor))
+    .range([0, dimensions.boundedWidth])
+    .nice();
+
+  const yScale = d3.scaleLinear()
+    .domain(d3.extent(dataset, yAccessor))
+    .range([0, dimensions.boundedHeight])
+    .nice();
 }
 drawScatter()
