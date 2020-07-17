@@ -50,7 +50,7 @@ async function drawScatter() {
 
   const yScale = d3.scaleLinear()
     .domain(d3.extent(dataset, yAccessor))
-    .range([0, dimensions.boundedHeight])
+    .range([dimensions.boundedHeight, 0])
     .nice();
 
   // Draw the Data
