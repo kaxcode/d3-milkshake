@@ -52,5 +52,14 @@ async function drawScatter() {
     .domain(d3.extent(dataset, yAccessor))
     .range([0, dimensions.boundedHeight])
     .nice();
+
+  // Draw the Data
+  const dots = bounds.selectAll("circle")
+      .data(dataset)
+    .enter().append("circle")
+      .attr("cx", d => xScale(xAccessor(d)))
+      .attr("cy", d => yScale(yAccessor(d)))
+      .attr("r", 5)
+      .attr("fill", "cornflowerblue");
 }
 drawScatter()
