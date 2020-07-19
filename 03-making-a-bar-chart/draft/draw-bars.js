@@ -2,6 +2,7 @@ async function drawBars() {
   // Access Data
   const dataset = await d3.json("./../../my_weather_data.json");
   const metricAccessor = d => d.humidity;
+  const yAccessor = d => d.length;
 
   // Create Dimensions
   const width = 600;
@@ -34,5 +35,24 @@ async function drawBars() {
       ${dimensions.margin.left}px,
       ${dimensions.margin.top}px
     )`)
+
+  // Create Scales
+  const xScale = d3.scaleLinear()
+    .domain(d3.extent(dataset, metricAccessor))
+    .range([0, dimensions.boundedWidth])
+    .nice();
+
+  // Creating bins
+  const binsGenerator = d3.histogram()
+    .domain(xScale.domain())
+    .value(metricAccessor)
+    .thresholds(12);
+
+  const bins = binsGenerator(dataset);
+
+  const yScale = d3.scaleLinear()
+    .domain([0, d3.max(bins, yAccessor)])
+    .range([dimensions.boundedHeight, 0])
+    .nice();
 }
 drawBars()
