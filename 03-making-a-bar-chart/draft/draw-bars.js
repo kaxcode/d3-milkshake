@@ -94,5 +94,13 @@ async function drawBars() {
     .attr("y2", dimensions.boundedHeight)
     .attr("stroke", "maroon")
     .attr("stroke-dasharray", "2px 4px");
+
+  const meanLabel = bounds.append("text")
+    .attr("x", xScale(mean))
+    .attr("y", -20)
+    .text("mean")
+    .attr("fill", "maroon")
+    .style("font-size", "12px")
+    .style("text-anchor", "middle");
 }
 drawBars()
