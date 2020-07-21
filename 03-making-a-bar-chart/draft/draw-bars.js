@@ -84,5 +84,15 @@ async function drawBars() {
       .attr("fill", "darkgrey")
       .style("font-size", "12px")
       .style("font-family", "sans-serif")
+
+  // Create mean humidity line
+  const mean = d3.mean(dataset,metricAccessor);
+  const meanLine = bounds.append("line")
+    .attr("x1", xScale(mean))
+    .attr("x2", xScale(mean))
+    .attr("y1", -15)
+    .attr("y2", dimensions.boundedHeight)
+    .attr("stroke", "maroon")
+    .attr("stroke-dasharray", "2px 4px");
 }
 drawBars()
