@@ -32,6 +32,11 @@ async function drawBars() {
         .attr("width", dimensions.width)
         .attr("height", dimensions.height);
 
+    wrapper.attr("role", "figure")
+        .attr("tabindex", "0")
+      .append("title")
+        .text("Histogram looking at the distribution of humidity over 2016");
+
     const bounds = wrapper.append("g")
       .style("transform", `translate(
         ${dimensions.margin.left}px,
@@ -58,10 +63,23 @@ async function drawBars() {
       .nice();
 
     // Draw Data
-    const binsGroup = bounds.append("g");
+    const binsGroup = bounds.append("g")
+        .attr("tabindex", 0)
+        .attr("role", "list")
+        .attr("aria-label", "histogram bars");
+
     const binGroups = binsGroup.selectAll("g")
-      .data(bins)
-      .enter().append("g");
+        .data(bins)
+        .enter().append("g")
+        .attr("tabindex", "0")
+        .attr("role", "listitem")
+        .attr("aria-label", d => `There were ${
+          yAccessor(d)
+        } days between ${
+          d.x0.toString().slice(0, 4)
+        } and ${
+          d.x1.toString().slice(0, 4)
+        } ${metric} levels.`)
 
     const barPadding = 1
     const barRects = binGroups.append("rect")
@@ -133,5 +151,9 @@ async function drawBars() {
   ]
 
   metrics.forEach(drawHistogram);
+
+  wrapper.selectAll("text")
+    .attr("role", "presentation")
+    .attr("aria-hidden", "true");
 }
 drawBars()
